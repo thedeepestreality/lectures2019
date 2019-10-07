@@ -1,25 +1,13 @@
 #include <iostream>
 
-int main()
+void SpiralArray(int** spiral, int rows, int cols)
 {
-	int rows, cols, total, current = 1;
-	int** spiral;
+	int total = rows * cols;
+	int current = 1;
 	int r = 0, c = 0;
-	int left, right, bottom, top;
+	int left = 0, right = cols - 1;
+	int top = 0, bottom = rows - 1;
 
-	std::cout << "ROWS: ";
-	std::cin >> rows;
-	std::cout << "COLS: ";
-	std::cin >> cols;
-
-	left = 0; right = cols - 1;
-	top = 0; bottom = rows - 1;
-
-	total = rows * cols;
-	spiral = new int* [rows];
-	for (int i = 0; i < rows; ++i)
-		spiral[i] = new int[cols];
-	
 	while (current <= total)
 	{
 		if (current <= total)
@@ -43,8 +31,24 @@ int main()
 			++left;
 		}
 	}
-	
+}
 
+int main()
+{
+	int rows, cols;
+	int** spiral;
+
+	std::cout << "ROWS: ";
+	std::cin >> rows;
+	std::cout << "COLS: ";
+	std::cin >> cols;
+
+	spiral = new int* [rows];
+	for (int i = 0; i < rows; ++i)
+		spiral[i] = new int[cols];
+
+	SpiralArray(spiral, rows, cols);
+	
 	for (int i = 0; i < rows; ++i)
 	{
 		for (int j = 0; j < cols; ++j)

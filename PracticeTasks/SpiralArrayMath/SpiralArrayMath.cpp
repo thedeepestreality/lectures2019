@@ -1,29 +1,14 @@
 #include <iostream>
 
-int main()
+void SpiralArrayMath(int** spiral, int rows, int cols)
 {
-	int rows, cols, total, current = 1;
-	int nrows, ncols;
-	int** spiral;
+	int total = rows * cols;
+	int current = 1;
 	int r = 0, c = 0;
 	int dr = 0, dc = 1;
 	int cornerCounter = 0;
-	int nextTurn;
+	int nextTurn = cols;
 	int cornerCounterMod4;
-
-	std::cout << "ROWS: ";
-	std::cin >> nrows;
-	std::cout << "COLS: ";
-	std::cin >> ncols;
-	cols = ncols;
-	rows = nrows;
-
-	nextTurn = cols;
-
-	total = rows * cols;
-	spiral = new int* [rows];
-	for (int i = 0; i < rows; ++i)
-		spiral[i] = new int[cols];
 
 	while (current <= total)
 	{
@@ -41,10 +26,27 @@ int main()
 		r += dr;
 		c += dc;
 	}
+}
 
-	for (int i = 0; i < nrows; ++i)
+int main()
+{
+	int rows, cols;
+	int** spiral;
+
+	std::cout << "ROWS: ";
+	std::cin >> rows;
+	std::cout << "COLS: ";
+	std::cin >> cols;
+
+	spiral = new int* [rows];
+	for (int i = 0; i < rows; ++i)
+		spiral[i] = new int[cols];
+
+	SpiralArrayMath(spiral, rows, cols);
+
+	for (int i = 0; i < rows; ++i)
 	{
-		for (int j = 0; j < ncols; ++j)
+		for (int j = 0; j < cols; ++j)
 			std::cout << spiral[i][j] << '\t';
 		std::cout << std::endl;
 	}
