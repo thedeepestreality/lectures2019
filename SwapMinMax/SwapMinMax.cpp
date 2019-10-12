@@ -30,6 +30,22 @@ int maxElement(int arr[], int size)
 	return idx;
 }
 
+int& minElementRef(int arr[], int size)
+{
+	int idx = 0;
+	for (int i = 0; i < size; ++i)
+		idx = arr[i] < arr[idx] ? i : idx;
+	return arr[idx];
+}
+
+int& maxElementRef(int arr[], int size)
+{
+	int idx = 0;
+	for (int i = 0; i < size; ++i)
+		idx = arr[i] > arr[idx] ? i : idx;
+	return arr[idx];
+}
+
 void Swap(int& a, int& b)
 {
 	int tmp = a;
@@ -39,6 +55,7 @@ void Swap(int& a, int& b)
 
 int main()
 {
+	srand(time(NULL));
 	int size;
 	int* arr;
 	int minElemIdx, maxElemIdx;
@@ -50,9 +67,10 @@ int main()
 	fillArray(arr, size);
 	printArray(arr, size);
 
-	minElemIdx = minElement(arr, size);
-	maxElemIdx = maxElement(arr, size);
-	Swap(arr[minElemIdx], arr[maxElemIdx]);
+	//minElemIdx = minElement(arr, size);
+	//maxElemIdx = maxElement(arr, size);
+	//Swap(arr[minElemIdx], arr[maxElemIdx]);
+	Swap(minElementRef(arr, size), maxElementRef(arr, size));
 
 	printArray(arr, size);
 	delete[] arr;
