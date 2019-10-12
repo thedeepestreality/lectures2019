@@ -72,6 +72,8 @@ int main()
 	//Swap(arr[minElemIdx], arr[maxElemIdx]);
 	Swap(minElementRef(arr, size), maxElementRef(arr, size));
 
+	maxElementRef(arr, size) = 100500;
+
 	printArray(arr, size);
 	delete[] arr;
 
