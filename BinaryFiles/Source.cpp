@@ -24,6 +24,16 @@ int main()
 	std::cout << x << std::endl;
 	file.close();
 
+	//Example of reading file size
+	file.open("out.txt",
+		std::ios::binary | std::ios_base::in);
+	file.seekg(0, std::ios_base::end);
+	int n = file.tellg();
+	file.seekg(0, std::ios_base::beg);
+	//std::ios_base::cur
+	std::cout << n << std::endl;
+	file.close();
+
 	system("pause");
 	return 0;
 }
