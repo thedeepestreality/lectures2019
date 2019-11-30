@@ -84,3 +84,39 @@ int binarySearchRecursive(Type arr[], int size, Type val)
 	int idx = binarySearchRecursive(arr + middle + 1, size - middle - 1, val);
 	return idx >=0 ? middle + 1 + idx : idx;
 }
+
+template <typename Type>
+int binarySearchIterative(Type arr[], int size, Type val)
+{
+	int leftBound = 0;
+	int rightBound = size - 1;
+	int middle = (leftBound + rightBound) / 2;
+	while (leftBound <= rightBound)
+	{
+		if (arr[middle] == val) 
+			return middle;
+		if (arr[middle] > val)
+			rightBound = middle - 1;
+		else
+			leftBound = middle + 1;
+		middle = (leftBound + rightBound) / 2;
+	}
+	return -1;
+}
+
+template <typename Type>
+int binarySearchForSort(Type arr[], int size, Type val)
+{
+	int leftBound = 0;
+	int rightBound = size - 1;
+	int middle = (leftBound + rightBound) / 2;
+	while (leftBound < rightBound)
+	{
+		if (arr[middle] > val)
+			rightBound = middle - 1;
+		else
+			leftBound = middle + 1;
+		middle = (leftBound + rightBound) / 2;
+	}
+	return middle;
+}
