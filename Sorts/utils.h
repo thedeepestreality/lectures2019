@@ -81,5 +81,6 @@ int binarySearchRecursive(Type arr[], int size, Type val)
 	if (arr[middle] > val)
 		return binarySearchRecursive(arr, middle, val);
 	
-	return binarySearchRecursive(arr + middle, size - middle - 1, val);
+	int idx = binarySearchRecursive(arr + middle + 1, size - middle - 1, val);
+	return idx >=0 ? middle + 1 + idx : idx;
 }
