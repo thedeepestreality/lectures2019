@@ -2,11 +2,11 @@
 #include "utils.h"
 
 template <typename Type>
-void bubbleSort(Type arr[], int size)
+void bubbleSort(Type arr[], int size, bool(*comp)(Type,Type) = Greater)
 {
 	for (int i = 1; i < size; ++i)
 		for (int j = 0; j < size - i; ++j)
-			if (arr[j] > arr[j + 1])
+			if (comp(arr[j],arr[j + 1]))
 				Swap(arr[j], arr[j + 1]);
 }
 

@@ -60,3 +60,26 @@ void copyArray(Type source[], Type destination[], int size)
 	for (int i = 0; i < size; ++i)
 		destination[i] = source[i];
 }
+
+template <typename Type>
+bool Greater(Type left, Type right)
+{
+	return left > right;
+}
+
+template <typename Type>
+int binarySearchRecursive(Type arr[], int size, Type val)
+{
+	if (size == 0) return -1;
+	int middle = size / 2;
+	if (arr[middle] == val)
+		return middle;
+
+	if (middle == 0)
+		return -1;
+
+	if (arr[middle] > val)
+		return binarySearchRecursive(arr, middle, val);
+	
+	return binarySearchRecursive(arr + middle, size - middle - 1, val);
+}

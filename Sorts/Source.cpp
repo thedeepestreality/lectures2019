@@ -3,10 +3,15 @@
 #include "sorts.h"
 #include "utils.h"
 
+bool LessDouble(double left, double right)
+{
+	return left < right;
+}
+
 int main()
 {
 	srand(time(NULL));
-	int size = 1e5;
+	int size = 1e4;
 	double* arr = new double[size];
 	double* sortedArr = new double[size];
 
@@ -15,19 +20,19 @@ int main()
 //	printArray(arr, size);
 
 	//clock_t start = clock();
-	/*
-	tic();
+	
+	/*tic();
 	bubbleSort(sortedArr, size);
 	std::cout << "Bubble random elapsed time: " << toc() << std::endl;
 
 	genSortedArray(sortedArr, size);
 	tic();
-	bubbleSort(sortedArr, size);
+	bubbleSort(sortedArr, size, LessDouble);
 	std::cout << "Bubble sorted elapsed time: " << toc() << std::endl;
 
 	genReverseSortedArray(sortedArr, size);
 	tic();
-	bubbleSort(sortedArr, size);
+	bubbleSort<double>(sortedArr, size, [](double l, double r) {return l < r; });
 	std::cout << "Bubble reverse elapsed time: " << toc() << std::endl;
 	*/
 
