@@ -1,6 +1,6 @@
 #pragma once
 
-//Разделение для быстрой сортировки
+//Р Р°Р·РґРµР»РµРЅРёРµ РґР»СЏ Р±С‹СЃС‚СЂРѕР№ СЃРѕСЂС‚РёСЂРѕРІРєРё
 template <typename Type>
 int qSortPartition(Type Array[], int lPos, int rPos)
 {
@@ -26,7 +26,7 @@ int qSortPartition(Type Array[], int lPos, int rPos)
 	return lPos;
 }
 
-//Быстрая сортировка (Quick sort)
+//Р‘С‹СЃС‚СЂР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР° (Quick sort)
 template <typename Type>
 void qSort(Type* Array, int size)
 {
@@ -42,7 +42,7 @@ void qSort(Type* Array, int size)
 	qSort(Array + pivot + 1, size - pivot - 1);
 }
 
-//Итеративная быстрая сортировка
+//РС‚РµСЂР°С‚РёРІРЅР°СЏ Р±С‹СЃС‚СЂР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР°
 void qSortIter(double arr[], int size)
 {
 	// Create an auxiliary stack 

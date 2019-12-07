@@ -1,6 +1,6 @@
 #pragma once
 
-//Поразрядная сортировка (рекурсия)
+//РџРѕСЂР°Р·СЂСЏРґРЅР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР° (СЂРµРєСѓСЂСЃРёСЏ)
 void radixSortRec(int* array, int size, int digit)
 {
 	if (size <= 1)
@@ -30,7 +30,7 @@ void radixSortRec(int* array, int size, int digit)
 	radixSortRec(array + splitIdx, size - splitIdx, digit - 1);
 }
 
-//Поразрядная сортировка
+//РџРѕСЂР°Р·СЂСЏРґРЅР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР°
 void radixSort(int* array, int size)
 {
 	for (int i = 0; i < size; ++i)

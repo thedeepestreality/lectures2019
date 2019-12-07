@@ -1,7 +1,7 @@
 #pragma once
 #include "utils.h"
 
-//Сортировка пузырьком
+//РЎРѕСЂС‚РёСЂРѕРІРєР° РїСѓР·С‹СЂСЊРєРѕРј
 template <typename Type>
 void bubbleSort(Type Array[], int size, bool(*comp)(Type, Type) = Greater)
 {

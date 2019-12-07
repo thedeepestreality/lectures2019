@@ -1,6 +1,6 @@
 #pragma once
 
-//Сортировка выбором
+//РЎРѕСЂС‚РёСЂРѕРІРєР° РІС‹Р±РѕСЂРѕРј
 template <typename Type>
 void selectionSort(Type Array[], int size)
 {

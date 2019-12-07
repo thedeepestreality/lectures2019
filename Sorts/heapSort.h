@@ -1,7 +1,7 @@
 #pragma once
 
-//Просеивание элемента через пирамиду
-//(для пирамиальной сортировки)
+//РџСЂРѕСЃРµРёРІР°РЅРёРµ СЌР»РµРјРµРЅС‚Р° С‡РµСЂРµР· РїРёСЂР°РјРёРґСѓ
+//(РґР»СЏ РїРёСЂР°РјРёР°Р»СЊРЅРѕР№ СЃРѕСЂС‚РёСЂРѕРІРєРё)
 template <typename Type>
 void heapElem(Type* Array, int size, int idx)
 {
@@ -31,7 +31,7 @@ void heapElem(Type* Array, int size, int idx)
 	}
 }
 
-//Пирамидальная сортировка
+//РџРёСЂР°РјРёРґР°Р»СЊРЅР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР°
 template <typename Type>
 void heapSort(Type* Array, int size)
 {

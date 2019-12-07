@@ -1,6 +1,6 @@
 #pragma once
 #include "utils.h"
-//Сортировка вставками
+//РЎРѕСЂС‚РёСЂРѕРІРєР° РІСЃС‚Р°РІРєР°РјРё
 template <typename Type>
 void insertionSort(Type Array[], int size)
 {
@@ -19,7 +19,7 @@ void insertionSort(Type Array[], int size)
 	}
 }
 
-//Сортировка вставками с бинарным поиском
+//РЎРѕСЂС‚РёСЂРѕРІРєР° РІСЃС‚Р°РІРєР°РјРё СЃ Р±РёРЅР°СЂРЅС‹Рј РїРѕРёСЃРєРѕРј
 template <typename Type>
 void insertionSortBinary(Type Array[], int size)
 {

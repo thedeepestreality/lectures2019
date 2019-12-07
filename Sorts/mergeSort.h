@@ -1,6 +1,6 @@
 #pragma once
 
-//Слияние для mergeSort
+//РЎР»РёСЏРЅРёРµ РґР»СЏ mergeSort
 template <typename Type>
 void merge(Type Array[], int size, int splitIdx)
 {
@@ -23,7 +23,7 @@ void merge(Type Array[], int size, int splitIdx)
 	delete[] tmpSorted;
 }
 
-//Сортировка слиянием
+//РЎРѕСЂС‚РёСЂРѕРІРєР° СЃР»РёСЏРЅРёРµРј
 template <typename Type>
 void mergeSort(Type Array[], int size)
 {
