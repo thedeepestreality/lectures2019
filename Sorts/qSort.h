@@ -30,8 +30,12 @@ int qSortPartition(Type Array[], int lPos, int rPos)
 template <typename Type>
 void qSort(Type* Array, int size)
 {
-	if (size <= 1)
+	if (size <= 1) return;
+	if (size < 1e3)
+	{
+		insertionSortBinary(Array, size);
 		return;
+	}
 
 	int pivot = qSortPartition(Array, 0, size - 1);
 	qSort(Array, pivot);

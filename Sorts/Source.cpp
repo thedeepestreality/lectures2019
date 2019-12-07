@@ -5,12 +5,11 @@
 
 typedef void (*sortFunc)(double*, int);
 
-void testSort(double* Array, int size, sortFunc sort, const char name[])
+void testSort(int size, sortFunc sort, const char name[])
 {
 	double* sortedArray = new double[size];
 
-	
-	copyArray(Array, sortedArray, size);
+	genRandArray(sortedArray, size);
 	tic();
 	sort(sortedArray, size);
 	std::cout << name << " random elapsed time: " << toc() << std::endl;
@@ -25,6 +24,11 @@ void testSort(double* Array, int size, sortFunc sort, const char name[])
 	sort(sortedArray, size);
 	std::cout << name << " reverse elapsed time: " << toc() << std::endl;
 
+	qSortKiller(sortedArray, size);
+	tic();
+	sort(sortedArray, size);
+	std::cout << name << " killer elapsed time: " << toc() << std::endl;
+
 	std::cout << std::endl;
 	delete[] sortedArray;
 }
@@ -32,10 +36,12 @@ void testSort(double* Array, int size, sortFunc sort, const char name[])
 int main()
 {
 	srand(time(NULL));
-	int size = 1e5;
-	double* Array = new double[size];
-	testSort(Array, size, mergeSort, "MergeSort");
-	delete[] Array;
+	int size = 1e6;
+	//testSort(size, insertionSortBinary, "InsertionSortBinary");
+	testSort(size, mergeSort, "MergeSort");
+	testSort(size, qSortIter, "QuickSort");
+	testSort(size, heapSort, "HeapSort");
+
 	system("pause");
 	return 0;
 }
