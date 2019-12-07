@@ -3,107 +3,39 @@
 #include "sorts.h"
 #include "utils.h"
 
-bool LessDouble(double left, double right)
+typedef void (*sortFunc)(double*, int);
+
+void testSort(double* Array, int size, sortFunc sort, const char name[])
 {
-	return left < right;
+	double* sortedArray = new double[size];
+
+	
+	copyArray(Array, sortedArray, size);
+	tic();
+	sort(sortedArray, size);
+	std::cout << name << " random elapsed time: " << toc() << std::endl;
+
+	genSortedArray(sortedArray, size);
+	tic();
+	sort(sortedArray, size);
+	std::cout << name << " sorted elapsed time: " << toc() << std::endl;
+
+	genReverseSortedArray(sortedArray, size);
+	tic();
+	sort(sortedArray, size);
+	std::cout << name << " reverse elapsed time: " << toc() << std::endl;
+
+	std::cout << std::endl;
+	delete[] sortedArray;
 }
 
 int main()
 {
 	srand(time(NULL));
-	int size = 4e4;
-	double* arr = new double[size];
-	double* sortedArr = new double[size];
-
-	genRandArray(arr, size);
-	copyArray(arr, sortedArr, size);
-	//printArray(arr, size);
-
-	//clock_t start = clock();
-	
-	/*tic();
-	bubbleSort(sortedArr, size);
-	std::cout << "Bubble random elapsed time: " << toc() << std::endl;
-
-	genSortedArray(sortedArr, size);
-	tic();
-	bubbleSort(sortedArr, size, LessDouble);
-	std::cout << "Bubble sorted elapsed time: " << toc() << std::endl;
-
-	genReverseSortedArray(sortedArr, size);
-	tic();
-	bubbleSort<double>(sortedArr, size, [](double l, double r) {return l < r; });
-	std::cout << "Bubble reverse elapsed time: " << toc() << std::endl;
-	*/
-
-	////copyArray(arr, sortedArr, size);
-	//tic();
-	//selectionSort(sortedArr, size);
-	//std::cout << "Selection random elapsed time: " << toc() << std::endl;
-
-	//genSortedArray(sortedArr, size);
-	//tic();
-	//selectionSort(sortedArr, size);
-	//std::cout << "Selection sorted elapsed time: " << toc() << std::endl;
-
-	//genReverseSortedArray(sortedArr, size);
-	//tic();
-	//selectionSort(sortedArr, size);
-	//std::cout << "Selection reverse elapsed time: " << toc() << std::endl;
-
-	/*copyArray(arr, sortedArr, size);
-	tic();
-	insertionSort(sortedArr, size);
-	std::cout << "Insertion random elapsed time: " << toc() << std::endl;
-
-	genSortedArray(sortedArr, size);
-	tic();
-	insertionSort(sortedArr, size);
-	std::cout << "Insertion sorted elapsed time: " << toc() << std::endl;
-
-	genReverseSortedArray(sortedArr, size);
-	tic();
-	insertionSort(sortedArr, size);
-	std::cout << "Insertion reverse elapsed time: " << toc() << std::endl;
-*/
-	copyArray(arr, sortedArr, size);
-	tic();
-	insertionSortBinary(sortedArr, size);
-	std::cout << "Binary insertion random elapsed time: " << toc() << std::endl;
-
-	genSortedArray(sortedArr, size);
-	tic();
-	insertionSortBinary(sortedArr, size);
-	std::cout << "Binary insertion sorted elapsed time: " << toc() << std::endl;
-
-	genReverseSortedArray(sortedArr, size);
-	tic();
-	insertionSortBinary(sortedArr, size);
-	std::cout << "Binary insertion reverse elapsed time: " << toc() << std::endl;
-
-	copyArray(arr, sortedArr, size);
-	tic();
-	mergeSort(sortedArr, size);
-	std::cout << "MergeSort random elapsed time: " << toc() << std::endl;
-
-	genSortedArray(sortedArr, size);
-	tic();
-	mergeSort(sortedArr, size);
-	std::cout << "MergeSort sorted elapsed time: " << toc() << std::endl;
-
-	genReverseSortedArray(sortedArr, size);
-	tic();
-	mergeSort(sortedArr, size);
-	std::cout << "MergeSort reverse elapsed time: " << toc() << std::endl;
-
-
-	//clock_t finish = clock();
-	//std::cout << "Time elapsed: " << (double)(finish - start) / CLOCKS_PER_SEC << std::endl;
-
-	//printArray(sortedArr, size);
-
-	delete[] arr;
-	delete[] sortedArr;
+	int size = 1e5;
+	double* Array = new double[size];
+	testSort(Array, size, mergeSort, "MergeSort");
+	delete[] Array;
 	system("pause");
 	return 0;
 }

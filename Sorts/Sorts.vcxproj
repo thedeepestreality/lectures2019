@@ -126,6 +126,13 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bubbleSort.h" />
+    <ClInclude Include="heapSort.h" />
+    <ClInclude Include="insertionSort.h" />
+    <ClInclude Include="mergeSort.h" />
+    <ClInclude Include="qSort.h" />
+    <ClInclude Include="radixSort.h" />
+    <ClInclude Include="selectionSort.h" />
     <ClInclude Include="sorts.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
