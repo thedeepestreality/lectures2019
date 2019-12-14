@@ -6,7 +6,7 @@ char base64Chars[] =
 
 char* base64Encode(const char message[], int messageSize)
 {
-	int encodedSize = 4 * messageSize / 3 + 1 
+	int encodedSize = 4 * (messageSize / 3) + 1 
 					+ 4*((bool)(messageSize%3));
 	//encodedSize += (messageSize % 3) ? 4 : 0;
 	char* encodedStr = new char[encodedSize];
@@ -22,10 +22,10 @@ char* base64Encode(const char message[], int messageSize)
 		if (sourceIdx == 3)
 		{
 			sourceIdx = 0;
-			indices[0] = source[0] & 0x3F;
-			indices[1] = (source[0] >> 6) + ((source[1] & 0x0F) << 2);
-			indices[2] = (source[1] >> 4) + ((source[2] & 0x03) << 4);
-			indices[3] = source[2] >> 2;
+			indices[3] = source[2] & 0x3F;
+			indices[2] = (source[2] >> 6) + ((source[1] & 0x0F) << 2);
+			indices[1] = (source[1] >> 4) + ((source[0] & 0x03) << 4);
+			indices[0] = source[0] >> 2;
 			for (int i = 0; i < 4; ++i)
 				encodedStr[encodedIdx++] = base64Chars[indices[i]];
 		}
@@ -36,10 +36,10 @@ char* base64Encode(const char message[], int messageSize)
 		for (int i = sourceIdx; i < 3; ++i)
 			source[i] = 0;
 
-		indices[0] = source[0] & 0x3F;
-		indices[1] = (source[0] >> 6) + ((source[1] & 0x0F) << 2);
-		indices[2] = (source[1] >> 4) + ((source[2] & 0x03) << 4);
-		indices[3] = source[2] >> 2;
+		indices[3] = source[2] & 0x3F;
+		indices[2] = (source[2] >> 6) + ((source[1] & 0x0F) << 2);
+		indices[1] = (source[1] >> 4) + ((source[0] & 0x03) << 4);
+		indices[0] = source[0] >> 2;
 
 		for (int i = 0; i < sourceIdx + 1; ++i)
 			encodedStr[encodedIdx++] = base64Chars[indices[i]];

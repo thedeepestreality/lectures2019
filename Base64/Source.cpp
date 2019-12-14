@@ -3,7 +3,8 @@
 
 int main()
 {
-	char* encoded = base64Encode("666", 3);
+	char str[] = "1234";
+	char* encoded = base64Encode(str, strlen(str));
 	std::cout << encoded << std::endl;
 	system("pause");
 	return 0;
