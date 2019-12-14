@@ -3,7 +3,7 @@
 #include <fstream>
 using namespace std;
 
-const int SIZE = 1e2;
+const int SIZE = 1e3;
 
 void generateFile(char* filename, int size)
 {
@@ -132,7 +132,7 @@ void sortFile(char* filename, int size)
 		f1.close();
 		f2.close();
 
-		cout << "Current max count: " << maxCount << endl;
+		//cout << "Current max count: " << maxCount << endl;
 		count = 0;
 	}
 }
