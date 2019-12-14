@@ -36,11 +36,15 @@ void testSort(int size, sortFunc sort, const char name[])
 int main()
 {
 	srand(time(NULL));
-	int size = 1e6;
+	const int size = 7;
 	//testSort(size, insertionSortBinary, "InsertionSortBinary");
-	testSort(size, mergeSort, "MergeSort");
+	/*testSort(size, mergeSort, "MergeSort");
 	testSort(size, qSortIter, "QuickSort");
-	testSort(size, heapSort, "HeapSort");
+	testSort(size, heapSort, "HeapSort");*/
+
+	int test[size] = { 10, 5, 15, -2, -4, 0, 22 };
+	radixSortStable(test, size);
+	printArray(test, size);
 
 	system("pause");
 	return 0;

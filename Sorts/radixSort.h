@@ -1,7 +1,7 @@
 #pragma once
 
 //Поразрядная сортировка (рекурсия)
-void radixSortRec(int* array, int size, int digit)
+void radixSortRec(int* Array, int size, int digit)
 {
 	if (size <= 1)
 		return;
@@ -15,29 +15,50 @@ void radixSortRec(int* array, int size, int digit)
 
 	while (true)
 	{
-		while ((leftIdx < rightIdx) && ((array[leftIdx] & mask) == 0))
+		while ((leftIdx < rightIdx) && ((Array[leftIdx] & mask) == 0))
 			++leftIdx;
-		while ((rightIdx > leftIdx) && ((array[rightIdx] & mask) != 0))
+		while ((rightIdx > leftIdx) && ((Array[rightIdx] & mask) != 0))
 			--rightIdx;
 		if (leftIdx != rightIdx)
-			Swap(array[leftIdx], array[rightIdx]);
+			Swap(Array[leftIdx], Array[rightIdx]);
 		else
 			break;
 	}
 
-	int splitIdx = ((array[leftIdx] & mask) == 0) ? leftIdx + 1 : leftIdx;
-	radixSortRec(array, splitIdx, digit - 1);
-	radixSortRec(array + splitIdx, size - splitIdx, digit - 1);
+	int splitIdx = ((Array[leftIdx] & mask) == 0) ? leftIdx + 1 : leftIdx;
+	radixSortRec(Array, splitIdx, digit - 1);
+	radixSortRec(Array + splitIdx, size - splitIdx, digit - 1);
+}
+
+void radixSortStable(int* Array, int size)
+{
+	for (int digit = 0; digit < 32; ++digit)
+	{
+		int mask = (1 << digit);
+		for (int i = 0; i < size - 1; ++i)
+		{
+			int key = Array[i + 1];
+			int j = i;
+			for (; j >= 0; --j)
+			{
+				if ((Array[j]&mask) > (key&mask))
+					Array[j + 1] = Array[j];
+				else
+					break;
+			}
+			Array[j + 1] = key;
+		}
+	}
 }
 
 //Поразрядная сортировка
-void radixSort(int* array, int size)
+void radixSort(int* Array, int size)
 {
 	for (int i = 0; i < size; ++i)
-		array[i] ^= INT_MIN;
+		Array[i] ^= INT_MIN;
 
-	radixSortRec(array, size, 31);
+	radixSortRec(Array, size, 31);
 
 	for (int i = 0; i < size; ++i)
-		array[i] ^= INT_MIN;
+		Array[i] ^= INT_MIN;
 }
