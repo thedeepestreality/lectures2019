@@ -36,6 +36,12 @@ public:
 			_arr[_size] = elem;
 	}
 
+	DynArray(DynArray const& source) : DynArray(source._size)
+	{
+		for (int i = 0; i < _size; ++i)
+			_arr[i] = source._arr[i];
+	}
+
 	~DynArray()
 	{
 		if (_capacity > 0)
@@ -107,12 +113,14 @@ int main()
 	constArr.getElem(1) = 2;
 	std::cout << constArr.getElem(1) << std::endl;
 
-	//WARNING!
-	//Dirty hack to break private fields
-	DynArray arr1; //default constructor
-	int* hack = (int*) &arr1;
-	hack[2] = 55;
-	std::cout << arr1.capacity() << std::endl;
+	////WARNING!
+	////Dirty hack to break private fields
+	//DynArray arr1; //default constructor
+	//int* hack = (int*) &arr1;
+	//hack[2] = 55;
+	//std::cout << arr1.capacity() << std::endl;
+
+	DynArray copyArr = arrObj;
 	
 	system("pause");
 	return 0;
