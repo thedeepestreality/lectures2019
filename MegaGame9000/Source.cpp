@@ -3,18 +3,19 @@
 #include "enemy.h"
 #include "player.h"
 
-void fight(Player& player, Enemy& enemy)
+void fight(Unit& fighter, Unit& enemy)
 {
 	std::cout << "=====Fight!=====" << std::endl;
+	fighter.status();
 	enemy.status();
-	while (player.alive() && enemy.alive())
+	while (fighter.alive() && enemy.alive())
 	{
 		bool coin = rand() % 2;
 		if (coin)
-			player.hit(enemy);
+			fighter.hit(enemy);
 		else
-			enemy.hit(player);
-		player.status();
+			enemy.hit(fighter);
+		fighter.status();
 		enemy.status();
 	}
 }

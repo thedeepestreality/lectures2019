@@ -1,8 +1,7 @@
 #pragma once
+#include "Unit.h"
 
-class Player;
-
-class Enemy
+class Enemy : public Unit
 {
 private:
 	static int _count;
@@ -11,12 +10,8 @@ private:
 	static const int MaxCount = 3;
 	static const int MinStrength = 10;
 	static const int MinHealth = 10;
-	int _strength;
-	int _health;
 public:
 	Enemy();
-	void hit(Player& player) const;
-	void damage(int damage);
-	bool alive() const;
-	void status() const;
+	void status() const override;
+	void roar() const override;
 };
