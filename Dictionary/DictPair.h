@@ -19,3 +19,8 @@ public:
 	bool operator!=(const DictPair&) const;
 
 };
+
+#include <iostream>
+
+std::ostream& operator<< (std::ostream& out, const DictPair&);
+std::istream& operator>> (std::istream& in, DictPair&);
