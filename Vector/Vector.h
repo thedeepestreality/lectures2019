@@ -7,14 +7,20 @@ private:
 	size_t _size;
 	size_t _capacity;
 	Type* _data;
+	bool _is_sorted;
+	void quick_sort(Type*, size_t);
 public:
 	Vector(size_t capacity = 0);
 	Vector(const Vector& vec);
-	void clear();
-	void empty();
+	~Vector() { clear(); }
+
 	size_t size() const { return _size; }
 	size_t capacity() const { return _capacity; }
-	~Vector() { clear(); }
+
+	void clear();
+	void empty();
+	void sort();
+	
 	Vector& operator=(const Vector& vec);
 	Type& operator[](size_t idx) const;
 	Vector& push_back(const Type& elem);
