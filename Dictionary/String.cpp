@@ -63,6 +63,19 @@ String& String::operator=(const String& str)
 	return *this;
 }
 
+String& String::operator=(String&& str)
+
+{
+	if (this != &str) {
+		if (_data) delete[] _data;
+		_size = str._size;
+		_data = str._data;
+		str._data = nullptr;
+		str._size = 0;
+	}
+	return *this;
+}
+
 String& String::operator+=(const String& str)
 {
 	String tmp(length() + str.length());
@@ -109,4 +122,12 @@ bool String::operator>=(const String& str) const
 std::ostream& operator<<(std::ostream& out, const String& str)
 {
 	return out << str.str();
+}
+
+std::istream& operator>>(std::istream& in, String& str)
+{
+	char what[128];
+	in.getline(what, 128);
+	str = what;
+	return in;
 }

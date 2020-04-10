@@ -130,7 +130,7 @@ Vector<Type>& Vector<Type>::push_back(const Type& elem)
 		if (_capacity < 10)
 			resize(_capacity + 10);
 		else
-			resize(_capacity*1.5);
+			resize(_capacity + 500);
 		//resize(_capacity < 10 ? _capacity + 10 : 1.5*_capacity);
 	}
 	_data[_size++] = elem;
@@ -145,7 +145,8 @@ Vector<Type>& Vector<Type>::resize(size_t new_size)
 	Type* tmp = new Type[_capacity];
 	if (!tmp) throw "Out of memory";
 	for (int i = 0; i < _size; ++i)
-		tmp[i] = _data[i];
+		//tmp[i] = _data[i];
+		tmp[i] = std::move(_data[i]);
 	if (!_data)
 		delete[] _data;
 	_data = tmp;
@@ -188,8 +189,7 @@ public:
 		size_t _idx;
 		byte* _vec_ptr;
 	public:
-
-		VecProxy(size_t idx, unsigned char* vecPtr) : _idx(idx), _vec_ptr(vecPtr) {}
+		VecProxy(size_t idx, byte* vecPtr) : _idx(idx), _vec_ptr(vecPtr) {}
 		VecProxy& operator=(bool val)
 		{
 			size_t char_idx = _idx / 8;

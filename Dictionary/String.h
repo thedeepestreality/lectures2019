@@ -1,5 +1,4 @@
 #pragma once
-
 class String
 {
 	size_t _size;
@@ -16,6 +15,8 @@ public:
 
 	char& operator[](size_t idx) const;
 	String& operator= (const String&);
+	String& operator= (String&& str);
+
 	String& operator+=(const String&);
 	String  operator+ (const String&) const;
 
@@ -29,3 +30,4 @@ public:
 
 #include <iostream>
 std::ostream& operator<< (std::ostream&, const String&);
+std::istream& operator>> (std::istream&, String&);

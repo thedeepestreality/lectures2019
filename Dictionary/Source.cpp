@@ -26,7 +26,7 @@ int main()
 		std::cout << "Reading from file: " << (double)(clock() - tic)/CLOCKS_PER_SEC << " sec" << std::endl;
 		std::cout << "Total: " << dictionary.size() << std::endl;
 
-		char what[128];
+		String what;
 		Container::iterator pos;
 
 		//for (auto pos = dictionary.begin(); pos != dictionary.end(); ++pos)
@@ -34,12 +34,12 @@ int main()
 
 		do {
 			std::cout << "> "; 
-			std::cin.getline(what, 128);
-			if (strlen(what) < 1) 
+			std::cin >> what;
+			if (what.length() < 1) 
 				break;
 
 			tic = clock();
-			pos = dictionary.find(DictPair(what));
+			pos = dictionary.find(what);
 			std::cout << "Found at: " << (clock() - tic) / CLOCKS_PER_SEC << " sec" << std::endl;
 
 			if (pos != dictionary.end())
@@ -58,3 +58,25 @@ int main()
 	system("pause");
 	return 0;
 }
+
+//template <typename Type>
+//void Swap(Type& a, Type& b)
+//{
+//	Type tmp = std::move(a);
+//	a = std::move(b);
+//	b = std::move(tmp);
+//}
+//
+//template <typename Type>
+//void Swap(Type& a, Type& b)
+//{
+//	Type tmp = a;
+//	a = b;
+//	b = tmp;
+//}
+//
+//template <typename Type>
+//typename std::remove_reference<Type>::type&& move(Type&& a)
+//{
+//	return static_cast<std::remove_reference<Type>::type&&>(a);
+//}

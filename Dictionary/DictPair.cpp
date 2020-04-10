@@ -44,6 +44,20 @@ bool DictPair::operator!=(const DictPair& pair) const
 	return (*this < pair) || (pair < *this);
 }
 
+DictPair& DictPair::operator=(const DictPair& pair)
+{
+	_word = pair._word;
+	_translate = pair._translate;
+	return *this;
+}
+
+DictPair& DictPair::operator=(DictPair&& pair)
+{
+	_word = std::move(pair._word);
+	_translate = std::move(pair._translate);
+	return *this;
+}
+
 std::ostream& operator<<(std::ostream& out, const DictPair& pair)
 {
 	return out << pair.word() << ": " << pair.translate() << std::endl;
