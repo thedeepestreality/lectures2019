@@ -10,21 +10,21 @@ public:
 	String(const String&);
 	~String();
 
-	int size() const;
-	int length() const;
+	size_t size() const;
+	size_t length() const;
 	const char* str() const;
 
-	char& operator[](int idx) const;
+	char& operator[](size_t idx) const;
 	String& operator= (const String&);
 	String& operator+=(const String&);
 	String  operator+ (const String&) const;
 
-	bool operator==(const String& X) const;
-	bool operator!=(const String& X) const;
-	bool operator< (const String& X) const;
-	bool operator<=(const String& X) const;
-	bool operator> (const String& X) const;
-	bool operator>=(const String& X) const;
+	bool operator==(const String& str) const;
+	bool operator!=(const String& str) const;
+	bool operator< (const String& str) const;
+	bool operator<=(const String& str) const;
+	bool operator> (const String& str) const;
+	bool operator>=(const String& str) const;
 };
 
 #include <iostream>

@@ -17,7 +17,6 @@ public:
 	bool operator>=(const DictPair&) const;
 	bool operator==(const DictPair&) const;
 	bool operator!=(const DictPair&) const;
-
 };
 
 #include <iostream>
