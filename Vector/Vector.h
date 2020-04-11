@@ -130,7 +130,7 @@ Vector<Type>& Vector<Type>::push_back(const Type& elem)
 		if (_capacity < 10)
 			resize(_capacity + 10);
 		else
-			resize(_capacity + 500);
+			resize(_capacity * 1.5);
 		//resize(_capacity < 10 ? _capacity + 10 : 1.5*_capacity);
 	}
 	_data[_size++] = elem;

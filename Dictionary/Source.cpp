@@ -1,11 +1,14 @@
 #include <iostream>
 #include "..\Vector\Vector.h"
+#include "List.h"
+#include "BinTree.h"
 #include "DictPair.h"
 #include <fstream>
 #include <time.h>
 
-typedef Vector<DictPair> Container;
-
+//typedef Vector<DictPair> Container;
+//typedef List<DictPair> Container;
+typedef BinTree<DictPair> Container;
 int main()
 {
 	setlocale(LC_ALL, "Rus");
@@ -39,8 +42,9 @@ int main()
 				break;
 
 			tic = clock();
-			pos = dictionary.find(what);
-			std::cout << "Found at: " << (clock() - tic) / CLOCKS_PER_SEC << " sec" << std::endl;
+			for (int i=0;i<2000;++i)
+				pos = dictionary.find(what);
+			std::cout << "Found at: " << (double)(clock() - tic) / CLOCKS_PER_SEC << " sec" << std::endl;
 
 			if (pos != dictionary.end())
 				std::cout << *pos << std::endl;

@@ -5,7 +5,7 @@ class String
 	char* _data;
 public:
 	String(const char* str = "");
-	String(int size);
+	String(int _size);
 	String(const String&);
 	~String();
 

@@ -7,9 +7,9 @@ String::String(const char* str)
 	memcpy(_data, str, _size + 1);
 }
 
-String::String(int size)
+String::String(int _size)
 {
-	_size = size;
+	_size = _size;
 	_data = new char[_size + 1];
 	_data[0] = '\0';
 }

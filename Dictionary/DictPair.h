@@ -7,6 +7,7 @@ class DictPair {
 	String _translate;
 public:
 	DictPair(const String& w = "", const String& t = "");
+	DictPair(const DictPair& pair) :_word(pair._word), _translate(pair._translate) {}
 
 	const String& word() const;
 	const String& translate() const;

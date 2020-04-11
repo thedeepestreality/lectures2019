@@ -129,7 +129,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Vector\Vector.h" />
+    <ClInclude Include="BinTree.h" />
     <ClInclude Include="DictPair.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="String.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
