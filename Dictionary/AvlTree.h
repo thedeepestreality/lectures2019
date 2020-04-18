@@ -1,18 +1,22 @@
 #pragma once
 
 template <typename Type>
-class BinTree
+class AvlTree
 {
+	enum class Direction {Left, Right};
 	struct Node
 	{
 		Node* parent;
 		Node* left;
 		Node* right;
 		Type data;
+		signed char balance;
+
 		Node(const Type& dat) : parent(nullptr),
-								left(nullptr),
-								right(nullptr),
-								data(dat) {}
+			left(nullptr),
+			right(nullptr),
+			balance(0),
+			data(dat) {}
 		~Node()
 		{
 			if (left) delete left;
@@ -50,9 +54,11 @@ class BinTree
 	};
 	Node* _root;
 	size_t _size;
+	void rebalance(Node* sub_root);
+	Node* rotate(Node* sub_root, Direction dir);
 public:
-	BinTree() : _root(nullptr), _size(0) {}
-	~BinTree() { clear(); }
+	AvlTree() : _root(nullptr), _size(0) {}
+	~AvlTree() { clear(); }
 	void clear()
 	{
 		if (_root)
@@ -62,7 +68,8 @@ public:
 	void empty() { clear(); }
 	size_t size() const { return _size; }
 	size_t capacity() const { return -1; }
-	size_t height() const {	return _root == nullptr ? 0 : _root->height(); }
+	size_t height() const { return _root == nullptr ? 0 : _root->height(); }
+	
 	void push_back(const Type& elem)
 	{
 		++_size;
@@ -82,6 +89,8 @@ public:
 		curr = new Node(elem);
 		curr->parent = pCurr;
 		(elem < pCurr->data) ? (pCurr->left = curr) : (pCurr->right = curr);
+		
+		rebalance(curr);
 	}
 
 	class iterator
@@ -125,3 +134,90 @@ public:
 		return iterator(curr);
 	}
 };
+
+template<typename Type>
+void AvlTree<Type>::rebalance(Node* sub_root)
+{
+	do
+	{
+		if (sub_root->parent->left == sub_root)
+			--sub_root->parent->balance;
+		else
+			++sub_root->parent->balance;
+
+		sub_root = sub_root->parent;
+		switch (sub_root->balance)
+		{
+			//right disbalance
+			case 2:
+			{
+				//right-left situation
+				if (sub_root->right->balance == -1)
+					sub_root = rotate(sub_root->right, Direction::Right);
+				//right-right
+				sub_root = rotate(sub_root, Direction::Left);
+				break;
+			}
+			//left disbalance
+			case -2:
+			{
+				//left-right situation
+				if (sub_root->left->balance == 1)
+					sub_root = rotate(sub_root->left, Direction::Left);
+				//left-left
+				sub_root = rotate(sub_root, Direction::Right);
+				break;
+			}
+		}
+		if (sub_root->parent == nullptr)
+			_root = sub_root;
+	} while (sub_root != _root && sub_root->balance != 0);
+}
+
+template<typename Type>
+typename AvlTree<Type>::Node* AvlTree<Type>::rotate(Node* sub_root, Direction dir)
+{
+	Node* child;
+	if (dir == Direction::Right)
+	{
+		child = sub_root->left;
+		sub_root->left = child->right;
+		if (child->right != nullptr)
+			child->right->parent = sub_root;
+		child->right = sub_root;
+
+		//update balance
+		if (child->balance == -1)
+			child->balance = sub_root->balance = 0;
+		else
+			sub_root->balance = -(child->balance = 1);
+	}
+	else
+	{
+		child = sub_root->right;
+		sub_root->right = child->left;
+		if (child->left != nullptr)
+			child->left->parent = sub_root;
+		child->left = sub_root;
+
+		//update balance
+		if (child->balance == 1)
+			sub_root->balance = child->balance = 0;
+		else
+			child->balance = -(sub_root->balance = 1);
+	}
+
+	if (sub_root->parent != nullptr)
+	{
+		if (sub_root->parent->left == sub_root)
+			sub_root->parent->left = child;
+		else
+			sub_root->parent->right = child;
+	}
+
+	Node* tmp = sub_root->parent;
+	sub_root->parent = child;
+	child->parent = tmp;
+
+	return child;
+}

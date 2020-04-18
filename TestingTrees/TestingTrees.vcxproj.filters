@@ -18,30 +18,12 @@
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="String.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DictPair.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Vector\Vector.h">
+    <ClInclude Include="..\Dictionary\BinTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="String.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DictPair.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="List.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BinTree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AvlTree.h">
+    <ClInclude Include="..\Dictionary\AvlTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
