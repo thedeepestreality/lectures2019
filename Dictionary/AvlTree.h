@@ -10,12 +10,10 @@ class AvlTree
 		Node* left;
 		Node* right;
 		Type data;
-		signed char balance;
 
 		Node(const Type& dat) : parent(nullptr),
 			left(nullptr),
 			right(nullptr),
-			balance(0),
 			data(dat) {}
 		~Node()
 		{
@@ -50,6 +48,13 @@ class AvlTree
 			size_t left_h = (left == nullptr) ? 0 : left->height();
 			size_t right_h = (right == nullptr) ? 0 : right->height();
 			return left_h < right_h ? right_h + 1 : left_h + 1;
+		}
+
+		signed char balance()
+		{
+			size_t left_h = (left == nullptr) ? 0 : left->height();
+			size_t right_h = (right == nullptr) ? 0 : right->height();
+			return right_h - left_h;
 		}
 	};
 	Node* _root;
@@ -140,20 +145,15 @@ void AvlTree<Type>::rebalance(Node* sub_root)
 {
 	do
 	{
-		if (sub_root->parent->left == sub_root)
-			--sub_root->parent->balance;
-		else
-			++sub_root->parent->balance;
-
 		sub_root = sub_root->parent;
-		switch (sub_root->balance)
+		switch (sub_root->balance())
 		{
 			//right disbalance
 			case 2:
 			{
 				//right-left situation
-				if (sub_root->right->balance == -1)
-					sub_root = rotate(sub_root->right, Direction::Right);
+				if (sub_root->right->balance() == -1)
+					rotate(sub_root->right, Direction::Right);
 				//right-right
 				sub_root = rotate(sub_root, Direction::Left);
 				break;
@@ -162,8 +162,8 @@ void AvlTree<Type>::rebalance(Node* sub_root)
 			case -2:
 			{
 				//left-right situation
-				if (sub_root->left->balance == 1)
-					sub_root = rotate(sub_root->left, Direction::Left);
+				if (sub_root->left->balance() == 1)
+					rotate(sub_root->left, Direction::Left);
 				//left-left
 				sub_root = rotate(sub_root, Direction::Right);
 				break;
@@ -171,7 +171,7 @@ void AvlTree<Type>::rebalance(Node* sub_root)
 		}
 		if (sub_root->parent == nullptr)
 			_root = sub_root;
-	} while (sub_root != _root && sub_root->balance != 0);
+	} while (sub_root != _root && sub_root->balance() != 0);
 }
 
 template<typename Type>
@@ -185,12 +185,6 @@ typename AvlTree<Type>::Node* AvlTree<Type>::rotate(Node* sub_root, Direction di
 		if (child->right != nullptr)
 			child->right->parent = sub_root;
 		child->right = sub_root;
-
-		//update balance
-		if (child->balance == -1)
-			child->balance = sub_root->balance = 0;
-		else
-			sub_root->balance = -(child->balance = 1);
 	}
 	else
 	{
@@ -199,12 +193,6 @@ typename AvlTree<Type>::Node* AvlTree<Type>::rotate(Node* sub_root, Direction di
 		if (child->left != nullptr)
 			child->left->parent = sub_root;
 		child->left = sub_root;
-
-		//update balance
-		if (child->balance == 1)
-			sub_root->balance = child->balance = 0;
-		else
-			child->balance = -(sub_root->balance = 1);
 	}
 
 	if (sub_root->parent != nullptr)
