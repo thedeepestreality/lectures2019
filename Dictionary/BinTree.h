@@ -63,26 +63,7 @@ public:
 	size_t size() const { return _size; }
 	size_t capacity() const { return -1; }
 	size_t height() const {	return _root == nullptr ? 0 : _root->height(); }
-	void push_back(const Type& elem)
-	{
-		++_size;
-		if (!_root)
-		{
-			_root = new Node(elem);
-			return;
-		}
-
-		Node* curr = _root;
-		Node* pCurr;
-		do
-		{
-			pCurr = curr;
-			curr = elem < curr->data ? curr->left : curr->right;
-		} while (curr);
-		curr = new Node(elem);
-		curr->parent = pCurr;
-		(elem < pCurr->data) ? (pCurr->left = curr) : (pCurr->right = curr);
-	}
+	void push_back(const Type& elem);
 
 	class iterator
 	{
@@ -105,6 +86,8 @@ public:
 			_curr = _curr->next();
 			return iterator(prev);
 		}
+
+		friend class BinTree;
 	};
 
 	iterator begin() const
@@ -114,14 +97,85 @@ public:
 	}
 	iterator end() const { return iterator(nullptr); }
 
-	iterator find(const Type& elem) const
-	{
-		Node* curr = _root;
-		while (curr)
-		{
-			if (elem == curr->data) break;
-			curr = elem < curr->data ? curr->left : curr->right;
-		}
-		return iterator(curr);
-	}
+	iterator find(const Type& elem) const;
+
+	iterator erase(iterator pos);
 };
+
+template<typename Type>
+void BinTree<Type>::push_back(const Type& elem)
+{
+	++_size;
+	if (!_root)
+	{
+		_root = new Node(elem);
+		return;
+	}
+
+	Node* curr = _root;
+	Node* pCurr;
+	do
+	{
+		pCurr = curr;
+		curr = elem < curr->data ? curr->left : curr->right;
+	} while (curr);
+	curr = new Node(elem);
+	curr->parent = pCurr;
+	(elem < pCurr->data) ? (pCurr->left = curr) : (pCurr->right = curr);
+}
+
+template<typename Type>
+typename BinTree<Type>::iterator BinTree<Type>::find(const Type& elem) const
+{
+	Node* curr = _root;
+	while (curr)
+	{
+		if (elem == curr->data) break;
+		curr = elem < curr->data ? curr->left : curr->right;
+	}
+	return iterator(curr);
+}
+
+template<typename Type>
+typename BinTree<Type>::iterator BinTree<Type>::erase(iterator pos)
+{
+	Node* to_erase = pos._node;
+	if (to_erase == nullptr) return pos;
+
+	Node* replace;
+	if (to_erase->left == nullptr)
+		replace = to_erase->right;
+	else if (to_erase->right == nullptr)
+		replace = to_erase->left;
+	else
+	{
+		replace = to_erase->right->minimum();
+		if (replace->parent != to_erase)
+		{
+			replace->parent->left = replace->right;
+			if (replace->right) replace->right->parent = replace->parent;
+			replace->right = to_erase->right;
+			to_erase->right->parent = replace;
+		}
+		replace->left = to_erase->left;
+		to_erase->left->parent = replace;
+	}
+
+	if (to_erase->parent == nullptr)
+		_root = replace;
+	else
+	{
+		if (to_erase->parent->left == to_erase)
+			to_erase->parent->left = replace;
+		else
+			to_erase->parent->right = replace;
+	}
+
+	if (replace != nullptr) replace->parent = to_erase->parent;
+
+	to_erase->right = to_erase->left = nullptr;
+	delete to_erase;
+	--_size;
+
+	return iterator(replace);
+}

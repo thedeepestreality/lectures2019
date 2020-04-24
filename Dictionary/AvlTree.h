@@ -49,7 +49,7 @@ class AvlTree
 			size_t right_h = (right == nullptr) ? 0 : right->height();
 			return left_h < right_h ? right_h + 1 : left_h + 1;
 		}
-
+		
 		signed char balance()
 		{
 			size_t left_h = (left == nullptr) ? 0 : left->height();
@@ -75,28 +75,7 @@ public:
 	size_t capacity() const { return -1; }
 	size_t height() const { return _root == nullptr ? 0 : _root->height(); }
 	
-	void push_back(const Type& elem)
-	{
-		++_size;
-		if (!_root)
-		{
-			_root = new Node(elem);
-			return;
-		}
-
-		Node* curr = _root;
-		Node* pCurr;
-		do
-		{
-			pCurr = curr;
-			curr = elem < curr->data ? curr->left : curr->right;
-		} while (curr);
-		curr = new Node(elem);
-		curr->parent = pCurr;
-		(elem < pCurr->data) ? (pCurr->left = curr) : (pCurr->right = curr);
-		
-		rebalance(curr);
-	}
+	void push_back(const Type& elem);
 
 	class iterator
 	{
@@ -138,14 +117,39 @@ public:
 		}
 		return iterator(curr);
 	}
+
+	iterator erase(iterator pos);
 };
+
+template<typename Type>
+void AvlTree<Type>::push_back(const Type& elem)
+{
+	++_size;
+	if (!_root)
+	{
+		_root = new Node(elem);
+		return;
+	}
+
+	Node* curr = _root;
+	Node* pCurr;
+	do
+	{
+		pCurr = curr;
+		curr = elem < curr->data ? curr->left : curr->right;
+	} while (curr);
+	curr = new Node(elem);
+	curr->parent = pCurr;
+	(elem < pCurr->data) ? (pCurr->left = curr) : (pCurr->right = curr);
+
+	rebalance(curr->parent);
+}
 
 template<typename Type>
 void AvlTree<Type>::rebalance(Node* sub_root)
 {
 	do
 	{
-		sub_root = sub_root->parent;
 		switch (sub_root->balance())
 		{
 			//right disbalance
@@ -171,7 +175,8 @@ void AvlTree<Type>::rebalance(Node* sub_root)
 		}
 		if (sub_root->parent == nullptr)
 			_root = sub_root;
-	} while (sub_root != _root && sub_root->balance() != 0);
+		sub_root = sub_root->parent;
+	} while (sub_root != nullptr && sub_root->balance() != 0);
 }
 
 template<typename Type>
@@ -208,4 +213,58 @@ typename AvlTree<Type>::Node* AvlTree<Type>::rotate(Node* sub_root, Direction di
 	child->parent = tmp;
 
 	return child;
+}
+
+template<typename Type>
+typename AvlTree<Type>::iterator AvlTree<Type>::erase(iterator pos)
+{
+	Node* to_erase = pos._node;
+	if (to_erase == nullptr) return pos;
+
+	Node* replace;
+	if (to_erase->left == nullptr)
+		replace = to_erase->right;
+	else if (to_erase->right == nullptr)
+		replace = to_erase->left;
+	else
+	{
+		replace = to_erase->right->minimum();
+		if (replace->parent != to_erase)
+		{
+			replace->parent->left = replace->right;
+			if (replace->right) replace->right->parent = replace->parent;
+			replace->right = to_erase->right;
+			to_erase->right->parent = replace;
+		}
+		replace->left = to_erase->left;
+		to_erase->left->parent = replace;
+	}
+
+	Node* unbalanced;
+	if (replace = nullptr)
+		unbalanced = to_erase->parent;
+	else
+		if (replace->parent == to_erase)
+			unbalanced = replace;
+		else
+			unbalanced = replace->parent;
+
+	if (to_erase->parent == nullptr)
+		_root = replace;
+	else
+	{
+		if (to_erase->parent->left == to_erase)
+			to_erase->parent->left = replace;
+		else
+			to_erase->parent->right = replace;
+	}
+
+	if (replace != nullptr) replace->parent = to_erase->parent;
+
+	to_erase->right = to_erase->left = nullptr;
+	delete to_erase;
+	--_size;
+
+	rebalance(unbalanced);
+	return iterator(replace);
 }
