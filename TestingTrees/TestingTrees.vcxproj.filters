@@ -26,5 +26,8 @@
     <ClInclude Include="..\Dictionary\AvlTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BstRecursive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
