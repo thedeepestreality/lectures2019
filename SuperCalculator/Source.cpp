@@ -34,14 +34,15 @@ class Formula {
 	// 3: stack -> out_str + stack.pop
 	// 4: finish
 	enum Action { char2str, char2stack, stack2str, finish };
-	const Action ActionTable[5][6] =
+	const Action ActionTable[6][7] =
 	{
-		//     0          +           -          *           /           N
-		{    finish, char2stack, char2stack, char2stack, char2stack, char2str}, // 0
-		{ stack2str,  stack2str,  stack2str, char2stack, char2stack, char2str}, // +
-		{ stack2str,  stack2str,  stack2str, char2stack, char2stack, char2str}, // -
-		{ stack2str,  stack2str,  stack2str,  stack2str,  stack2str, char2str}, // *
-		{ stack2str,  stack2str,  stack2str,  stack2str,  stack2str, char2str}  // /
+		//     0          +           -          *           /           ^           N
+		{    finish, char2stack, char2stack, char2stack, char2stack, char2stack, char2str}, // 0
+		{ stack2str,  stack2str,  stack2str, char2stack, char2stack, char2stack, char2str}, // +
+		{ stack2str,  stack2str,  stack2str, char2stack, char2stack, char2stack, char2str}, // -
+		{ stack2str,  stack2str,  stack2str,  stack2str,  stack2str, char2stack, char2str}, // *
+		{ stack2str,  stack2str,  stack2str,  stack2str,  stack2str, char2stack, char2str}, // /
+		{ stack2str,  stack2str,  stack2str,  stack2str,  stack2str,  stack2str, char2str}  // ^
 	};
 
 	size_t ActionColumn(char curr) {
@@ -51,9 +52,10 @@ class Formula {
 			case '-': return 2;
 			case '*': return 3;
 			case '/': return 4;
+			case '^': return 5;
 		}
-		if (isdigit(curr)) return 5;
-		return 5;
+		if (isdigit(curr)) return 6;
+		return 6;
 	}
 
 	size_t ActionRow(const std::stack<char>& container) {
@@ -65,6 +67,7 @@ class Formula {
 			case '-': return 2;
 			case '*': return 3;
 			case '/': return 4;
+			case '^': return 5;
 		}
 		return 0;
 	}
@@ -75,6 +78,7 @@ class Formula {
 		{'-', [](FormulaNode* left, FormulaNode* right) {return new MinusNode(left,right); } },
 		{'*', [](FormulaNode* left, FormulaNode* right) {return new MultNode(left,right); } },
 		{'/', [](FormulaNode* left, FormulaNode* right) {return new DivNode(left,right); } },
+		{'^', [](FormulaNode* left, FormulaNode* right) {return new PowNode(left,right); } }
 	};
 
 	FormulaNode* from_postfix(const std::string& postfix_str) {
@@ -116,13 +120,19 @@ class Formula {
 	FormulaNode* _root;
 public:
 	Formula(const std::string& str, bool is_postfix = false) {_root = from_postfix(is_postfix ? str : infix_to_postfix(str)); }
+	Formula(const char* str, bool is_postfix = false) : Formula(std::string(str), is_postfix) {}
 	double calc() const { return _root ? _root->calc() : 0; }
 	std::string str() const { return _root ? _root->str() : ""; }
 	Formula(FormulaNode* node) : _root(node) {}
+	Formula(double d) : _root(new NumNode(d)) {}
 	Formula operator+(const Formula& f) const {
-		return Formula(new PlusNode(_root, f._root));
+		return Formula(new PlusNode(_root->copy(), f._root->copy()));
+	}
+	Formula operator*(const Formula& f) const {
+		return Formula(new MultNode(_root->copy(), f._root->copy()));
 	}
 	~Formula() {
+		std::cout << "burn tree" << std::endl;
 		if (_root) delete _root;
 		_root = nullptr;
 	}
@@ -140,9 +150,11 @@ int main() {
 
 	//Formula f("23+4*52/-");
 	//Formula f("2+3*4-5/2");
-	Formula x("234*+52/-", true);
-	Formula y("2+3*4-5/2");
-	Formula f = x + y;
+	/*Formula x("234*+52/-", true);
+	Formula y("2+3*4-5/2");*/
+	Formula y("2+3*4");
+	Formula x("2+1");
+	Formula f = x * "2*2^4" + 2;
 	try{
 		std::cout << f.str() << " = " << f.calc() << std::endl;
 	} catch (const Error& e){
