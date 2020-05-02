@@ -33,16 +33,17 @@ class Formula {
 	// 2: char -> stack, in_str++
 	// 3: stack -> out_str + stack.pop
 	// 4: finish
-	enum Action { char2str, char2stack, stack2str, finish };
-	const Action ActionTable[6][7] =
+	enum Action { char2str, char2stack, stack2str, finish, pop, err_open, err_close };
+	const Action ActionTable[7][9] =
 	{
-		//     0          +           -          *           /           ^           N
-		{    finish, char2stack, char2stack, char2stack, char2stack, char2stack, char2str}, // 0
-		{ stack2str,  stack2str,  stack2str, char2stack, char2stack, char2stack, char2str}, // +
-		{ stack2str,  stack2str,  stack2str, char2stack, char2stack, char2stack, char2str}, // -
-		{ stack2str,  stack2str,  stack2str,  stack2str,  stack2str, char2stack, char2str}, // *
-		{ stack2str,  stack2str,  stack2str,  stack2str,  stack2str, char2stack, char2str}, // /
-		{ stack2str,  stack2str,  stack2str,  stack2str,  stack2str,  stack2str, char2str}  // ^
+		//     0           +            -           *            /            ^           N         (            )
+		{    finish,  char2stack,  char2stack,  char2stack,  char2stack,  char2stack, char2str, char2stack,   err_open}, // 0
+		{ stack2str,   stack2str,   stack2str,  char2stack,  char2stack,  char2stack, char2str, char2stack,  stack2str}, // +
+		{ stack2str,   stack2str,   stack2str,  char2stack,  char2stack,  char2stack, char2str, char2stack,  stack2str}, // -
+		{ stack2str,   stack2str,   stack2str,   stack2str,   stack2str,  char2stack, char2str, char2stack,  stack2str}, // *
+		{ stack2str,   stack2str,   stack2str,   stack2str,   stack2str,  char2stack, char2str, char2stack,  stack2str}, // /
+		{ stack2str,   stack2str,   stack2str,   stack2str,   stack2str,   stack2str, char2str, char2stack,  stack2str}, // ^
+		{ err_close,  char2stack,  char2stack,  char2stack,  char2stack,  char2stack, char2str, char2stack,        pop}  // (
 	};
 
 	size_t ActionColumn(char curr) {
@@ -53,6 +54,8 @@ class Formula {
 			case '*': return 3;
 			case '/': return 4;
 			case '^': return 5;
+			case '(': return 7;
+			case ')': return 8;
 		}
 		if (isdigit(curr)) return 6;
 		return 6;
@@ -68,6 +71,7 @@ class Formula {
 			case '*': return 3;
 			case '/': return 4;
 			case '^': return 5;
+			case '(': return 6;
 		}
 		return 0;
 	}
@@ -112,6 +116,9 @@ class Formula {
 					container.pop();
 					break;
 				}
+				case pop: container.pop(); ++in_idx; break;
+				case err_open: throw ErrorBraketsOpen(infix_str, in_idx); break;
+				case err_close: throw ErrorBraketsClose(infix_str, in_idx); break;
 			}
 		} while (action != finish);
 		return str_stream.str();
@@ -152,9 +159,9 @@ int main() {
 	//Formula f("2+3*4-5/2");
 	/*Formula x("234*+52/-", true);
 	Formula y("2+3*4-5/2");*/
-	Formula y("2+3*4");
+	Formula y("2+3");
 	Formula x("2+1");
-	Formula f = x * "2*2^4" + 2;
+	Formula f = x * y;
 	try{
 		std::cout << f.str() << " = " << f.calc() << std::endl;
 	} catch (const Error& e){
