@@ -27,6 +27,38 @@ double calc_postfix(const std::string& formula_str){
 	return container.top();
 }
 
+const unsigned char ActionsTable[][6] = {
+	//0 + - * / P
+	{ 4,2,2,2,2,1},// 0
+	{ 3,3,3,2,2,1},// +
+	{ 3,3,3,2,2,1},// -
+	{ 3,3,3,3,3,1},// *
+	{ 3,3,3,3,3,1},// /
+};
+
+inline int ActionsRowNumber(char ch) {
+	switch (ch) {
+		case 0: return 0;
+		case '+': return 1;
+		case '-': return 2;
+		case '*': return 3;
+		case '/': return 4;
+	}
+	return 5;
+}
+
+inline int ActionsColNumber(char ch) {
+	switch (ch) {
+		case 0: return 0;
+		case '+': return 1;
+		case '-': return 2;
+		case '*': return 3;
+		case '/': return 4;
+	}
+	if (ch >= '0' && ch <= '9') return 5;
+	return 5;
+}
+
 class Formula {
 	
 	// 1: char -> out_str, in_str++
