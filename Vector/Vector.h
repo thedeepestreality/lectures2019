@@ -1,5 +1,5 @@
 #pragma once
-
+#include <initializer_list>
 template <typename Type>
 class Vector
 {
@@ -12,6 +12,8 @@ private:
 public:
 	Vector(size_t capacity = 0);
 	Vector(const Vector& vec);
+	Vector(std::initializer_list<Type> v);
+
 	~Vector() { clear(); }
 
 	size_t size() const { return _size; }
@@ -83,6 +85,16 @@ Vector<Type>::Vector(const Vector& vec) : _size(0),
 		_data = new Type[capacity];
 		if (!_data) throw "Out of memory";
 	}
+}
+
+template <typename Type>
+Vector<Type>::Vector(std::initializer_list<Type> init_list) : _size(init_list.size()),
+															  _capacity(_size),
+															  _data(new Type[_size])
+{
+	int idx = 0;
+	for (auto it = init_list.begin(); it != init_list.end(); ++it)
+		_data[idx++] = *it;
 }
 
 template <typename Type>

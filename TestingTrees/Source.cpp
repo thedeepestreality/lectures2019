@@ -2,6 +2,7 @@
 #include "../Dictionary/BinTree.h"
 #include "../Dictionary/AvlTree.h"
 #include "BstRecursive.h"
+#include "../Vector/Vector.h"
 
 //typedef BinTree<int> Container;
 //typedef AvlTree<int> Container;
@@ -33,6 +34,10 @@ int main()
 	tree.print();
 	std::cout << std::endl;
 	tree.print_bf_rec();
+
+	//Usage of initializer list for vector
+	Vector<int> v = { 3, 4, 5 };
+	std::cout << "VEC[1] = " << v[1] << std::endl;
 
 	system("pause");
 	return 0;
