@@ -82,6 +82,13 @@ UniquePtr<Type> make_unique()
 	return UniquePtr<Type>(new Type());
 }
 
+//almost canonical make_shared realization
+template <typename Type, typename... Args>
+SharedPtr<Type> make_shared(Args&& ...args)
+{
+	return SharedPtr<Type>(new Type(std::forward<Args>(args)));
+}
+
 void bar(int x, std::unique_ptr<Dummy> d)
 {
 
@@ -95,14 +102,18 @@ int get_int()
 
 void foo()
 {
-	/*Dummy* ptr = new Dummy();
-	bar();
-	delete ptr;*/
+	/*
+		//possible memory leak
+		Dummy* ptr = new Dummy();
+		bar();
+		delete ptr;
+	*/
 	UniquePtr<Dummy> a_ptr(new Dummy());
 	UniquePtr<Dummy> ptr2 = std::move(a_ptr);
 	std::shared_ptr<Dummy> up = std::make_shared<Dummy>();
 	std::weak_ptr<Dummy> wp = up;
 
+	//still possible memory leak
 	//bar(get_int(), UniquePtr<Dummy>(new Dummy()));
 	bar(get_int(), std::make_unique<Dummy>());
 }
