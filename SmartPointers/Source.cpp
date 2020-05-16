@@ -131,6 +131,9 @@ int main()
 	for (const int& val : vec)
 		std::cout << val << std::endl;
 
+	for (auto val : vec)
+		std::cout << val << std::endl;
+
 	std::weak_ptr<Dummy> wp;
 	{
 		auto sp = std::make_shared<Dummy>();
