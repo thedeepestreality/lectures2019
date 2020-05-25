@@ -140,6 +140,26 @@ int main()
 		wp = sp;
 	}
 	std::cout << (wp.lock() == nullptr) << std::endl;
+
+
+	//how to make smart ptr to dynamic array?
+	//1) unique_ptr -- easy since c++14
+	int sz = 10;
+	auto dyn_unique = std::make_unique<int[]>(sz);
+	dyn_unique[0] = 2;
+	dyn_unique[1] = 3;
+
+	//2) shared_ptr -- will do the same since c++20
+	//for now we co use custom deleter:
+	std::shared_ptr<int[]> dyn_shared(new int[sz],[](int* p){delete[] p;});
+	dyn_shared[0] = -2;
+	dyn_shared[1] = 4;
+
+	//3) alternatively -- create shared ptr from unique
+	std::shared_ptr<int[]> shared_from_unique = std::make_unique<int[]>(sz);
+	//or
+	std::shared_ptr<int[]> shared_capture = std::move(dyn_unique);
+
 	system("pause");
 	return 0;
 }
